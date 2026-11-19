@@ -21,7 +21,22 @@ file(GLOB_RECURSE SRC_FILES src/*.cpp)
 # Define the executable target
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
+# Add options to the executable
+if(WIN32) 
+    target_link_options(${PROJECT_NAME} PRIVATE -mwindows)
+endif()
+
 # Include directories for this target
 # target_include_directories(${PROJECT_NAME} PRIVATE
 #     ${CMAKE_SOURCE_DIR}/include            # Your own project headers
 # )
+
+# -------------------- PostBuild --------------------
+
+if(WIN32)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/icon.ico"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/icon.ico"
+    )
+endif()
