@@ -2,8 +2,8 @@
 cmake_minimum_required(VERSION 3.15)                # Minimum required CMake version
 project(ImposterSystemTray)                         # Project name
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)               # Generate compile_commands.json (useful for clangd, LSPs)
 set(CMAKE_CXX_STANDARD 20)                          # Use C++20
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)               # Generate compile_commands.json (useful for clangd, LSPs)
 
 # Debug flags: disable optimizations, enable debug info
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
@@ -15,11 +15,26 @@ endif()
 
 # -------------------- Build Setup --------------------
 
+# Move icon file
+configure_file(
+    icon.ico 
+    ./
+    COPYONLY
+)
+
 # Collect all .cpp files in src/ recursively
-file(GLOB_RECURSE SRC_FILES src/*.cpp)
+file(
+    GLOB_RECURSE 
+    SRC_FILES 
+    src/*.cpp
+)
 
 # Define the executable target
-add_executable(${PROJECT_NAME} ${SRC_FILES})
+add_executable(
+    ${PROJECT_NAME} 
+    ${SRC_FILES}
+    imposterSystemTray.rc
+)
 
 # Add options to the executable
 if(WIN32) 
@@ -30,13 +45,3 @@ endif()
 # target_include_directories(${PROJECT_NAME} PRIVATE
 #     ${CMAKE_SOURCE_DIR}/include            # Your own project headers
 # )
-
-# -------------------- PostBuild --------------------
-
-if(WIN32)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/icon.ico"
-        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/icon.ico"
-    )
-endif()
