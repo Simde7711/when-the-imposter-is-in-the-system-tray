@@ -1,1 +1,3 @@
-IDI_ICON1 ICON DISCARDABLE "build\icon.ico"
+#include "resource.hpp"
+
+IDI_ICON1 ICON "icon.ico"

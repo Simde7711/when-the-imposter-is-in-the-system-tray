@@ -15,13 +15,6 @@ endif()
 
 # -------------------- Build Setup --------------------
 
-# Move icon file
-configure_file(
-    icon.ico 
-    ./
-    COPYONLY
-)
-
 # Collect all .cpp files in src/ recursively
 file(
     GLOB_RECURSE 
@@ -42,6 +35,6 @@ if(WIN32)
 endif()
 
 # Include directories for this target
-# target_include_directories(${PROJECT_NAME} PRIVATE
-#     ${CMAKE_SOURCE_DIR}/include            # Your own project headers
-# )
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/include            # Your own project headers
+)

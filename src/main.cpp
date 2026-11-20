@@ -1,7 +1,9 @@
-// Standards
-#include <synchapi.h>
+#include "resource.hpp"
+
+// Windows / platform headers
 #include <windows.h>
 #include <windef.h>
+#include <synchapi.h>
 
 #define WM_TRAY (WM_APP + 1)
 bool isClosing = false;
@@ -51,15 +53,7 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE, LPSTR, int) {
         return 0;
     }
 
-    HICON icon = static_cast<HICON>(LoadImageA
-    (
-        NULL,
-        "icon.ico",
-        IMAGE_ICON,
-        0,
-        0,
-        LR_LOADFROMFILE | LR_DEFAULTSIZE
-    ));
+    HICON icon = LoadIconA(_hInstance, MAKEINTRESOURCE(IDI_ICON1));
   
     if (!icon)
     {
